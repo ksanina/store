@@ -9,4 +9,9 @@ class Product
   def to_s
     "#{@price} руб. (осталось #{@quantity})"
   end
+
+  def update(params_upd)
+    @price = params_upd[:price] if params_upd[:price]
+    @quantity = params_upd[:quantity] if params_upd[:quantity]
+  end
 end

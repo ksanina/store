@@ -1,5 +1,5 @@
 class Product
-  attr_reader :price, :quantity 
+  attr_accessor :price, :quantity 
 
   def initialize(params)
     @price = params[:price]
@@ -13,5 +13,9 @@ class Product
   def update(params_upd)
     @price = params_upd[:price] if params_upd[:price]
     @quantity = params_upd[:quantity] if params_upd[:quantity]
+  end
+
+  def self.from_file(file_path)
+    NotImplementedError.new("Этот ребенок не умеет создавать себя из файла")
   end
 end

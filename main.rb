@@ -5,19 +5,51 @@ require_relative 'lib/cd'
 require_relative 'lib/productcollection'
 
 products = ProductCollection.from_dir
+user_choise = 0
+chousen_products = []
+total_price = 0
+products_array = products.to_a
 
-puts "Как хотите отсортировать список товаров?"
-puts
-puts "1. По остатку на складе: min -> max"
-puts "2. По остатку на складе: max - > min"
-puts "3. По названию: А -> Я"
-puts "4. По названию: Я -> А"
-puts "5. По цене: min -> max"
-puts "6. По цене: max - > min"
+until products_array == [] do
+  puts "Что хотите купить:"
+  puts
+ 
+  products_array.each.with_index(1) do |product, index|
+    puts "#{index}. #{product.to_s}"
+  end
 
-user_choise = gets.chomp.to_i
+  puts "0. Выход"
+  puts
+  
+  user_choise = gets.chomp.to_i
+  puts
+  
+  until (0..products_array.size).include?(user_choise)
+    puts "Вы указали неверный номер. Введите число от 0 до #{products_array.size}:"
+    puts
+    user_choise = gets.chomp.to_i
+    puts
+  end
 
+  if user_choise == 0
+    break
+  else
+    user_choise -= 1
+    chousen_products << products_array[user_choise]
+    total_price += products_array[user_choise].price
+    products_array[user_choise].quantity -= 1
+
+    puts "Вы выбрали: #{products_array[user_choise].to_s}"
+    puts
+    puts "Всего товаров на сумму: #{total_price} руб."
+    puts
+
+    products_array.delete(products_array[user_choise]) if products_array[user_choise].quantity == 0
+  end
+end
+
+puts "Вы купили:"
 puts
-puts 'Вот какие товары у нас есть:'
+puts chousen_products.to_a
 puts
-puts products.sort!(user_choise)
+puts "С Вас — #{total_price} руб. Спасибо за покупки!"
